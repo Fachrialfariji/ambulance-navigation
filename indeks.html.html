@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ambulance Map</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 350px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #d62828;
+    }
+
+    p {
+      text-align: center;
+      color: #555;
+    }
+
+    label {
+      font-weight: bold;
+      margin-top: 10px;
+      display: block;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background: #d62828;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    button:hover {
+      background: #b71c1c;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f1f1f1;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .status {
+      font-weight: bold;
+      color: #0a9396;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚑 Ambulance Map</h1>
+    <p>Find The Quickest Emergency Route</p>
+
+    <label for="jalan">Kondisi Jalan</label>
+    <select id="jalan">
+      <option value="1">Lancar</option>
+      <option value="1.5">Sedikit Macet</option>
+      <option value="2">Macet Parah</option>
+    </select>
+
+    <label for="rs">Pilih Rumah Sakit</label>
+    <select id="rs">
+      <option value="15">RS Harapan</option>
+      <option value="10">RS Medika</option>
+      <option value="20">RS Sehat Sentosa</option>
+    </select>
+
+    <button onclick="hitungRute()">Cari Rute Tercepat</button>
+
+    <div class="result" id="hasil">
+      <h3>Hasil Navigasi</h3>
+      <p id="namaRS"></p>
+      <p id="estimasi"></p>
+      <p class="status" id="status"></p>
+    </div>
+  </div>
+
+  <script>
+    function hitungRute() {
+      const jalan = parseFloat(document.getElementById('jalan').value);
+      const rs = document.getElementById('rs');
+      const waktu = parseFloat(rs.value);
+      const nama = rs.options[rs.selectedIndex].text;
+
+      const estimasi = waktu * jalan;
+
+      let status = "";
+
+      if (estimasi <= 15) {
+        status = "Rute Sangat Cepat";
+      } else if (estimasi <= 25) {
+        status = "Rute Cukup Cepat";
+      } else {
+        status = "Rute Lambat";
+      }
+
+      document.getElementById('hasil').style.display = 'block';
+      document.getElementById('namaRS').innerHTML = "Rumah Sakit Tujuan: <b>" + nama + "</b>";
+      document.getElementById('estimasi').innerHTML = "Estimasi Waktu: <b>" + estimasi + " menit</b>";
+      document.getElementById('status').innerHTML = status;
+    }
+  </script>
+</body>
+</html>
